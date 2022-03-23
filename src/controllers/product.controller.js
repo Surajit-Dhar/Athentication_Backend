@@ -5,6 +5,7 @@ const router = express.Router();
 
 const Product=require("../models/product.model")
 const athentication = require("../middilewars/athentication");
+const authorise = require("../middilewars/authorise");
 
 router.post("", athentication, async(req,res)=>{
 
@@ -17,7 +18,7 @@ router.post("", athentication, async(req,res)=>{
          return res.status(400).send({err:err.message});
      }
 });
-router.patch("/:_id", athentication, async(req,res)=>{
+router.patch("/:_id", athentication,authorise(["admin","seller"]), async(req,res)=>{
 
     req.body.user_id= req.user._id;
 
